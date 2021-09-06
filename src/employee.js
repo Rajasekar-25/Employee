@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View, TouchableOpacity } from 'react-native';
 import Axios from 'axios';
 import CardView from 'react-native-cardview'
-export default App = () => {
+
+
+
+export default App = ({navigation}) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     Axios.get('http://dummy.restapiexample.com/api/v1/employees')
       .then(({ data }) => {
-        console.log("defaultApp -> data", data.movies)
+        console.log("defaultApp -> data", data)
         setData(data.data)
       })
       .catch((error) => console.error(error))
@@ -32,11 +35,14 @@ export default App = () => {
 <CardView style={{backgroundColor:'#B00020', marginTop:10}}
           cardElevation={5}
           cardMaxElevation={2}
-          cornerRadius={10}>
-    
+          cornerRadius={10}
+          
+          >
+    <TouchableOpacity onPress= {()=> navigation.navigate('Profile',{id:item.id})} >
              <Text style={{fontFamily:'Cochin', fontSize: 18,fontWeight: "bold",color:'white'}}>Name:{item.employee_name}</Text>
               <Text style={{fontFamily:'Cochin', fontSize: 15,fontWeight: "bold",color:'white'}}> Age:{item.employee_age}</Text>
             <Text style={{fontFamily:'Cochin', fontSize: 15,fontWeight: "bold",color:'white'}}>Slaary:{item.employee_salary}</Text>
+            </TouchableOpacity>
               </CardView>
 
 
